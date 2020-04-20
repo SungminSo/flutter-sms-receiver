@@ -1,10 +1,22 @@
 import 'package:flutter/material.dart';
 import 'package:slack/io/slack.dart';
+import 'package:sms/sms.dart';
 
 void main() {
-  Slack slack = new Slack('https://hooks.slack.com/services/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');
-  Message message = new Message('asdfasdfsdfadfsasdfa', username: 'paul');
-  slack.send(message);
+  Slack slack = new Slack('https://hooks.slack.com/services/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');
+
+  SmsReceiver receiver = new SmsReceiver();
+
+  receiver.onSmsReceived.listen((SmsMessage msg) {
+    Attachment cardReport = new Attachment("card detail report",
+        pretext: "카드 사용 내역",
+        text: msg.body,
+        color: "#FFA500"
+    );
+
+    Message message = new Message('', username: '덕준', attachments: [cardReport]);
+    slack.send(message);
+  });
 }
 
 //class MyApp extends StatelessWidget {
