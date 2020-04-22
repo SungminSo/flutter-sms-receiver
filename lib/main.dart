@@ -2,23 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:slack/io/slack.dart';
 import 'package:sms/sms.dart';
 
-//void main() {
-//  Slack slack = new Slack('https://hooks.slack.com/services/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');
-//
-//  SmsReceiver receiver = new SmsReceiver();
-//
-//  receiver.onSmsReceived.listen((SmsMessage msg) {
-//    Attachment cardReport = new Attachment("card detail report",
-//        pretext: "카드 사용 내역",
-//        text: msg.body,
-//        color: "#FFA500"
-//    );
-//
-//    Message message = new Message('', username: '덕준', attachments: [cardReport]);
-//    slack.send(message);
-//  });
-//}
-
 void main() => runApp(MyApp());
 
 class MyApp extends StatelessWidget {
@@ -64,7 +47,7 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> {
   int _counter = 0;
-  Slack slack = new Slack('https://hooks.slack.com/services/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');
+  Slack slack = new Slack('https://hooks.slack.com/services/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');
   SmsReceiver receiver = new SmsReceiver();
 
   void initState() {
@@ -81,25 +64,38 @@ class _MyHomePageState extends State<MyHomePage> {
         String amount = textLines[5];
         String rest = textLines[6].substring(2);
 
-        Attachment cardReport = new Attachment("card detail report",
-            fields: [
-              Field("카드사", company, short: true),
-              Field("계좌", account, short: true),
-              Field("일시", datetime, short: true),
-              Field("사용처", where, short: true),
-              Field("결제 금액", amount, short: true),
-              Field("잔액", rest, short: true)
-            ],
-            color: "#FFA500"
-        );
+        if (how.contains("입금")) {
+          Attachment cardReport = new Attachment("card detail report",
+              fields: [
+                Field("계좌", account, short: true),
+                Field("일시", datetime, short: true),
+                Field("사용처", where, short: true),
+                Field("입금 금액", amount, short: true),
+              ],
+              color: "#36a64f"
+          );
 
-        Message message = new Message('', username: '덕준', attachments: [cardReport]);
-        this.slack.send(message);
+          Message message = new Message('', username: '덕준', attachments: [cardReport]);
+          this.slack.send(message);
+        } else {
+          Attachment cardReport = new Attachment("card detail report",
+              fields: [
+                Field("계좌", account, short: true),
+                Field("일시", datetime, short: true),
+                Field("사용처", where, short: true),
+                Field("결제 금액", amount, short: true),
+              ],
+              color: "#FFA500"
+          );
+
+          Message message = new Message('', username: '덕준', attachments: [cardReport]);
+          this.slack.send(message);
+        }
       }
     });
   }
 
-  void _incrementCounter() {
+  void _sendTestMessage() {
     setState(() {
       // This call to setState tells the Flutter framework that something has
       // changed in this State, which causes it to rerun the build method below
@@ -164,7 +160,7 @@ class _MyHomePageState extends State<MyHomePage> {
         ),
       ),
       floatingActionButton: FloatingActionButton(
-        onPressed: _incrementCounter,
+        onPressed: _sendTestMessage,
         tooltip: 'Increment',
         child: Icon(Icons.add),
       ), // This trailing comma makes auto-formatting nicer for build methods.
