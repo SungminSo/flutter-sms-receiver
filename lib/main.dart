@@ -44,7 +44,7 @@ class ReceiverPage extends StatelessWidget {
         String rest = textLines[6].substring(2);
 
         if (how.contains("입금")) {
-          Attachment cardReport = new Attachment("card detail report",
+          Attachment cardReport = Attachment("card detail report",
               fields: [
                 Field("계좌", account, short: true),
                 Field("일시", datetime, short: true),
@@ -54,10 +54,10 @@ class ReceiverPage extends StatelessWidget {
               color: "#36a64f"
           );
 
-          Message message = new Message('', username: '덕준', attachments: [cardReport]);
+          Message message = Message('', username: '덕준', attachments: [cardReport]);
           this.slack.send(message);
         } else {
-          Attachment cardReport = new Attachment("card detail report",
+          Attachment cardReport = Attachment("card detail report",
               fields: [
                 Field("계좌", account, short: true),
                 Field("일시", datetime, short: true),
@@ -67,7 +67,7 @@ class ReceiverPage extends StatelessWidget {
               color: "#FFA500"
           );
 
-          Message message = new Message('', username: '덕준', attachments: [cardReport]);
+          Message message = Message('', username: '덕준', attachments: [cardReport]);
           this.slack.send(message);
         }
       }
@@ -75,13 +75,13 @@ class ReceiverPage extends StatelessWidget {
   }
 
   void _sendTestMessage() {
-    Attachment cardReport = new Attachment("card detail report",
+    Attachment cardReport = Attachment("card detail report",
         pretext: "카드 사용 내역",
         text: '테스트 메세지입니다.',
         color: "#FFA500"
     );
 
-    Message message = new Message('', username: '덕준', attachments: [cardReport]);
+    Message message = Message('', username: '덕준', attachments: [cardReport]);
     this.slack.send(message);
   }
 
