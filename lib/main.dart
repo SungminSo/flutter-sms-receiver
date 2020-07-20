@@ -28,7 +28,7 @@ class MyApp extends StatelessWidget {
 }
 
 class ReceiverPage extends StatelessWidget {
-  Slack slack = new Slack('https://hooks.slack.com/services/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');
+  Slack slack = new Slack('{slack_key}');
   SmsReceiver receiver = new SmsReceiver();
 
   _addListener() {
