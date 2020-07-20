@@ -33,7 +33,7 @@ class ReceiverPage extends StatelessWidget {
 
   _addListener() {
     receiver.onSmsReceived.listen((SmsMessage msg) {
-      if (msg.sender == "01039167481" || msg.sender == "16449999") {
+      if (msg.sender == "010") {
         List<String> textLines = msg.body.split("\n");
         String company = textLines[1].substring(1, textLines[1].indexOf("]"));
         String datetime = textLines[1].substring(textLines[1].indexOf("]") + 1);
